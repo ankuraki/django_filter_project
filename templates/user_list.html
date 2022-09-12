@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block title %}
+    Accesing data 
+{% endblock %}
+{% block body %}
+    {% if filter %}
+        <form method='get'>
+            <h4>Filter Fields</h4>
+            <div class="row">
+                <div class="form-group col-md-3 col-sm-4">
+                    {{ filter.form.username.label_tag }}
+                    {% render_field filter.form.username|attr:"autocomplete:off" class="form-control" placeholder="Your username"%}
+
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                    {{ filter.form.first_name.label_tag }}
+                    {% render_field filter.form.first_name class="form-control"%}
+
+                </div>
+                <div class="form-group col-md-3 col-sm-4">
+                    {{ filter.form.last_name.label_tag }}
+                    {% render_field filter.form.last_name class="form-control"%}
+
+                </div>
+               
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+           
+
+        </form>
+        <div class="container-fluid">
+        <table class="table table-striped table-bordered table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Datejoined</th>
+                </tr>
+            </thead>
+            {% for user in filter.qs %}
+                <tbody>
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.first_name}}</td>
+                        <td>{{ user.last_name }}</td>
+                        <td>{{ user.date_joined }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan='4'>No matched data</td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+    </div>
+    {% else %}
+    <h1>No matched data</h1>
+    {% endif %}
+{% endblock %}
